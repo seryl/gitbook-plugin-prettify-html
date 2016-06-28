@@ -17,7 +17,7 @@ function getTargetHtmlPath(mdPath) {
 }
 
 function prettify(str) {
-  return html.prettyPrint(str);
+  return html.prettyPrint(str, { 'indent_size': 2, 'unformatted': [] });
 }
 
 function prettifyFile(filename) {
@@ -32,9 +32,6 @@ module.exports = {
       return page;
     },
     "finish": function() {
-      console.log("Current Directory");
-      console.log(process.cwd());
-
       for (var i=0; i < updatedPages.length; i++) {
         var hPath = getTargetHtmlPath(updatedPages[i]);
         prettifyFile(hPath);
