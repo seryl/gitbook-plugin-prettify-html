@@ -1,8 +1,15 @@
-var path = require('path');
-var fs = require('fs');
-var html = require('html');
+import path from 'path';
+import fs from 'fs';
+import html from 'html';
+import cheerio from 'cheerio';
 
 var updatedPages = [];
+
+// Can be overridden with the key pluginsConfig.prettify-html
+var prettyConfig = {
+  "indent_size": 2,
+  "unformatted": ["code"]
+};
 
 function getTargetHtmlPath(mdPath) {
   var mdInfo = path.parse(mdPath);
@@ -16,8 +23,19 @@ function getTargetHtmlPath(mdPath) {
   return path.resolve(relpath);
 }
 
+function removePreWhitespace(str) {
+  var crio = cheerio.load(str), i;
+  crio('pre').each( (i, elem) => {
+    elem.text(elem.text().trim());
+  });
+
+  return crio.html();
+}
+
 function prettify(str) {
-  return html.prettyPrint(str, { 'indent_size': 2, 'unformatted': [] });
+  var updated = html.prettyPrint(str, prettyConfig);
+  updated = removePreWhitespace(updated);
+  return updated;
 }
 
 function prettifyFile(filename) {
@@ -27,6 +45,12 @@ function prettifyFile(filename) {
 module.exports = {
   book: {},
   hooks: {
+    "config": function(config) {
+      if (config["prettify-html"] != undefined) {
+        prettyConfig = config["prettify-html"];
+      }
+      return config;
+    },
     "page": function (page) {
       updatedPages.push(page.path);
       return page;
