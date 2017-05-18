@@ -2,7 +2,7 @@
   "name": "gitbook-plugin-prettify-html",
   "description": "Gitbook HTML Prettifier Plugin",
   "main": "lib/index.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "gitbook": "*"
   },
@@ -11,13 +11,13 @@
     "type": "git",
     "url": "https://github.com/seryl/gitbook-plugin-prettify-html.git"
   },
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/seryl/gitbook-plugin-prettify-html/issues"
   },
   "dependencies": {
-    "cheerio": "^0.20.0",
-    "html": "0.0.10"
+    "cheerio": "^0.22.0",
+    "html": "1.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
